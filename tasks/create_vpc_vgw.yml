@@ -1,0 +1,42 @@
+---
+
+#
+# Assert that required vpc_filter element is present
+- name: ensure vpc_vgw array is defined correctly
+  assert:
+    that:
+      - vgw.vpc_filter is defined or vgw.vpc_name is defined
+      - not (vgw.vpc_filter is defined and vgw.vpc_name is defined)
+      - vgw.name is defined
+    msg: "aws_vpc_vgws[x].vpc_filter or .vpc_name is not defined, but required to lookup vpc"
+
+
+# Returns:
+# * aws_vpc_vgw_vpc_id
+# * aws_vpc_vgw_vpc_cidr
+- include_tasks: gather_facts_vpc_by_filter.yml
+  when:
+    - vgw.vpc_filter is defined
+
+# Returns:
+# * aws_vpc_vgw_vpc_id
+# * aws_vpc_vgw_vpc_cidr
+- include_tasks: gather_facts_vpc_by_name.yml
+  when:
+    - vgw.vpc_name is defined
+
+
+- name: ensure vpc is created
+  ec2_vpc_vgw:
+    # Fixed values
+    state: present
+    # Looked-up values
+    name: "{{ vgw.name }}"
+    vpc_id: "{{ aws_vpc_vgw_vpc_id }}"
+    # Optional values
+    tags: "{{ vgw.tags | default({}) | get_attr('key', 'val') }}"
+    region: "{{ vgw.region | default(aws_vpc_vgw_default_region | default(omit)) }}"
+    aws_access_key: "{{ lookup('ENV', 'AWS_ACCESS_KEY') | default(omit) }}"
+    aws_secret_key: "{{ lookup('ENV', 'AWS_SECRET_KEY') | default(omit) }}"
+    security_token: "{{ lookup('ENV', 'AWS_SECURITY_TOKEN') | default(omit) }}"
+    profile: "{{ aws_vpc_vgw_profile | default(omit) }}"
