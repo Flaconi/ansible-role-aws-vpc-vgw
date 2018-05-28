@@ -4,7 +4,7 @@ This role is able to create any number of Virtual Gateways, each attached to a V
 
 [![Build Status](https://travis-ci.org/Flaconi/ansible-role-aws-vpc-vgw.svg?branch=master)](https://travis-ci.org/Flaconi/ansible-role-aws-vpc-vgw)
 [![Version](https://img.shields.io/github/tag/Flaconi/ansible-role-aws-vpc-vgw.svg)](https://github.com/Flaconi/ansible-role-aws-vpc-vgw/tags)
-<!-- [![Ansible Galaxy](https://img.shields.io/ansible/role/d/25920.svg)](https://galaxy.ansible.com/Flaconi/aws-vpc-vgw/) -->
+[![Ansible Galaxy](https://img.shields.io/ansible/role/d/25925.svg)](https://galaxy.ansible.com/Flaconi/aws-vpc-vgw/)
 
 ## Requirements
 
