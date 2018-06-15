@@ -1,6 +1,13 @@
 ---
 
-#
+# Assert that required name element is present
+- name: ensure vpc_vgw array contains name key
+  assert:
+    that:
+      - vgw.name is defined
+      - vgw.name | length > 0
+    msg: "aws_vpc_vgws[x].name is not defined, but required"
+
 # Assert that required vpc_filter element is present
 - name: ensure vpc_vgw array is defined correctly
   assert:
