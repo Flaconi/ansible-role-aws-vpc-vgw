@@ -45,6 +45,12 @@ aws_vpc_vgws:
 
 #### All available parameter
 ```yml
+# Ensure VPC filter (name or filter) includes that the VPC is created already
+# (not pending nor deleted)
+aws_vpc_vgw_vpc_filter_additional:
+  - key: state
+    val: available
+
 aws_vpc_vgws:
   # Create VGW for a VPC by VPC name
   - name: vgw-test-1
