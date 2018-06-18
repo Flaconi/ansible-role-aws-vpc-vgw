@@ -15,11 +15,11 @@ This role is able to create any number of Virtual Gateways, each attached to a V
 
 Additional variables that can be used (either as `host_vars`/`group_vars` or via command line args):
 
-| Variable                     | Description                  |
-|------------------------------|------------------------------|
-| `aws_vpc_vgw_profile`        | Boto profile name to be used |
-| `aws_vpc_vgw_default_region` | Default region to use        |
-
+| Variable                            | Description                  |
+|-------------------------------------|------------------------------|
+| `aws_vpc_vgw_profile`               | Boto profile name to be used |
+| `aws_vpc_vgw_default_region`        | Default region to use        |
+| `aws_vpc_vgw_vpc_filter_additional` | Additional `key` `val` filter to add to `vpc_filter` and `vpc_name` by default. |
 
 ## Example definition
 
@@ -45,6 +45,12 @@ aws_vpc_vgws:
 
 #### All available parameter
 ```yml
+# Ensure VPC filter (name or filter) includes that the VPC is created already
+# (not pending nor deleted)
+aws_vpc_vgw_vpc_filter_additional:
+  - key: state
+    val: available
+
 aws_vpc_vgws:
   # Create VGW for a VPC by VPC name
   - name: vgw-test-1
@@ -70,4 +76,25 @@ aws_vpc_vgws:
         val: playground
       - key: department
         val: devops
+```
+
+
+## Testing
+
+#### Requirements
+
+* Docker
+* [yamllint](https://github.com/adrienverge/yamllint)
+
+#### Run tests
+
+```bash
+# Lint the source files
+make lint
+
+# Run integration tests with default Ansible version
+make test
+
+# Run integration tests with custom Ansible version
+make test ANSIBLE_VERSION=2.4
 ```
